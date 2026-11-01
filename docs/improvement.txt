@@ -1,0 +1,80 @@
+Act as a senior web performance engineer specializing in Core Web Vitals, frontend optimization, and production websites.
+
+Analyze the actual MATHURA CRACKERS website and optimize mobile performance based on the latest PageSpeed Insights report.
+
+CURRENT MOBILE BASELINE:
+
+* Performance: 61
+* Accessibility: 93
+* Best Practices: 96
+* SEO: 100
+* FCP: 2.6 seconds
+* LCP: 5.3 seconds
+* TBT: 20 ms
+* CLS: 0.007
+* Speed Index: 19.2 seconds
+
+PRIMARY OBJECTIVE:
+Improve mobile Performance to 90+ where realistically achievable, reduce LCP to 2.5 seconds or less, improve FCP to 1.8 seconds or less, and maintain CLS at 0.1 or less.
+
+TASKS:
+
+1. Identify the exact LCP element and investigate why it loads slowly.
+
+2. Optimize oversized hero and background images using appropriately sized WebP/AVIF assets, responsive image sources, and correct compression. Preserve the approved visual design.
+
+3. Prioritize the actual LCP image or background resource where appropriate. Do not lazy-load above-the-fold LCP content.
+
+4. Reduce render-blocking CSS and font requests. Use font-display: swap, preload only critical fonts and assets, and remove unnecessary font weights.
+
+5. Inspect animation-related rendering costs. Optimize fireworks, particles, and entrance animations without removing the approved visual effects or causing layout shifts.
+
+6. Remove unused CSS, unnecessary JavaScript, and oversized icon fonts where safe. Prefer lightweight SVG icons when appropriate.
+
+7. Defer non-critical scripts and lazy-load below-the-fold images and resources.
+
+8. Preserve the existing yellow, cream, maroon, and charcoal branding, all product data, pricing rules, enquiry functionality, WhatsApp integration, SEO metadata, and responsive layouts.
+
+9. Investigate every failing Lighthouse audit and prioritize fixes according to measured impact rather than making arbitrary changes.
+
+10. Re-run PageSpeed Insights or Lighthouse after optimization using comparable mobile test conditions.
+
+VALIDATION:
+
+* Record before-and-after Performance, FCP, LCP, TBT, CLS, and Speed Index.
+* Verify the actual LCP element and its loading behavior.
+* Check homepage and product catalog on mobile and desktop.
+* Verify that animations, navigation, product selection, quantity controls, and enquiry submission still work.
+* Confirm that accessibility, SEO, and best-practice scores do not regress.
+* Report files changed and the reason for each change.
+
+IMPORTANT:
+Do not claim improvements without running the tests again. Do not fabricate Lighthouse scores or measurements. If a metric cannot be measured, mark it as unverified. Do not redesign the website or remove approved functionality just to improve scores.
+
+Start by identifying the specific causes of the 5.3-second LCP and 19.2-second Speed Index. Fix the highest-impact issues first.
+
+I would prioritize the work in this order.
+
+Priority 1 — Find and optimize the LCP element
+
+The homepage's hero image or background may be responsible, but the screenshot alone cannot establish which element Lighthouse selected.
+
+The agent should inspect the LCP diagnostic and identify the exact resource before changing anything.
+
+Priority 2 — Reduce background image weight
+
+Your website uses a visually rich sky background. Preserve that appearance, but serve a compressed image at the dimensions appropriate for the visitor's screen.
+
+If the background is a CSS image, investigate whether it is delaying the first meaningful rendering.
+
+Priority 3 — Improve font loading
+
+Preload only the font files required for the initial viewport. Use font-display: swap and avoid downloading unnecessary font weights.
+
+Priority 4 — Optimize entrance animations
+
+Keep the Mathura Crackers introduction and fireworks effects, but prevent expensive animations from delaying the initial content. Use transforms and opacity where appropriate, and respect prefers-reduced-motion.
+
+Priority 5 — Re-test the live website
+
+Do not accept a claim that performance improved simply because code was modified. Run the same test again and compare the measured results.

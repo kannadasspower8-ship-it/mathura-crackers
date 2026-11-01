@@ -1,0 +1,29 @@
+# robots.txt for Mathura Crackers (Sivakasi, Tamil Nadu)
+# https://mathuracrackers.in/
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /scratch/
+Disallow: /server.js
+
+# Legitimate AI search crawlers allowed for answer generation and indexing
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://mathuracrackers.in/sitemap.xml

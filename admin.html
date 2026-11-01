@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard &amp; Inventory Manager - Mathura Crackers</title>
+  <meta name="description" content="Simple, owner-friendly management system for Mathura Crackers: Inventory, Orders, Stock, and Revenue Analytics." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="apple-touch-icon" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Cinzel:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ==========================================================================
+       OWNER-FRIENDLY ADMIN PANEL THEME
+       ========================================================================== */
+    :root {
+      --admin-bg: #0f172a;
+      --admin-card: #1e293b;
+      --admin-card-hover: #24344d;
+      --admin-border: #334155;
+      --admin-text-main: #f8fafc;
+      --admin-text-muted: #94a3b8;
+      --admin-primary: #ff6f61;
+      --admin-primary-hover: #ff5240;
+      --admin-success: #10b981;
+      --admin-warning: #f59e0b;
+      --admin-danger: #ef4444;
+      --admin-blue: #0284c7;
+      --admin-purple: #8b5cf6;
+    }
+
+    body {
+      background: var(--admin-bg) !important;
+      color: var(--admin-text-main) !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      min-height: 100vh;
+      margin: 0;
+      padding-bottom: 80px;
+    }
+
+    /* Admin Header */
+    .admin-header {
+      background: #0b1120;
+      border-bottom: 1px solid var(--admin-border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .admin-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .admin-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .admin-brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff6f61, #d97706);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .admin-brand-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .admin-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .admin-live-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Top Navigation Tabs */
+    .admin-nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--admin-border);
+      overflow-x: auto;
+    }
+
+    .admin-nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--admin-text-muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .admin-nav-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .admin-nav-btn.active {
+      background: var(--admin-primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px rgba(255, 111, 97, 0.35) !important;
+    }
+
+    .admin-counter-pill {
+      background: rgba(0, 0, 0, 0.35);
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .btn-site-link {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid var(--admin-border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-site-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    /* Main Container */
+    .admin-main {
+      max-width: 1400px;
+      margin: 24px auto 0 auto;
+      padding: 0 20px;
+    }
+
+    .admin-tab-content {
+      display: none;
+    }
+
+    .admin-tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPI Summary Cards Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--admin-card);
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--card-accent, var(--admin-primary));
+    }
+
+    .kpi-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--admin-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Quick Action Buttons */
+    .quick-actions-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .btn-quick-action {
+      background: var(--admin-card);
+      border: 1.5px solid var(--admin-border);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-quick-action:hover {
+      background: var(--admin-card-hover);
+      border-color: var(--admin-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-quick-action.primary {
+      background: linear-gradient(135deg, #ff6f61, #e11d48) !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 16px rgba(255, 111, 97, 0.35);
+    }
+
+    /* Common Card Panels */
+    .admin-panel-card {
+      background: var(--admin-card);
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Period Switcher (DAY / MONTH / YEAR) */
+    .admin-period-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: #0b1120;
+      border: 1.5px solid var(--admin-border);
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+    }
+
+    .admin-period-btn {
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 7px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .admin-period-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .admin-period-btn.active {
+      background: #ff6f61 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(255, 111, 97, 0.4) !important;
+    }
+
+    /* Tables */
+    .admin-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--admin-border);
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      background: #0b1120;
+      color: var(--admin-text-muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+
+    .admin-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Status Pills */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .status-pill.new, .status-pill.pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-pill.confirmed { background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.3); }
+    .status-pill.packed { background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .status-pill.delivered { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-pill.cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Modals */
+    .admin-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-modal-backdrop.open {
+      display: flex;
+    }
+
+    .admin-modal-card {
+      background: #182234;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .admin-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .admin-modal-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: #0f172a;
+      border: 1.5px solid var(--admin-border);
+      color: #ffffff;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--admin-primary);
+    }
+
+    /* Unit Choice Stepper */
+    .unit-choice-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .unit-choice-card {
+      background: #0f172a;
+      border: 2px solid var(--admin-border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .unit-choice-card.selected {
+      border-color: var(--admin-primary);
+      background: rgba(255, 111, 97, 0.1);
+    }
+
+    .unit-choice-card h4 {
+      margin: 4px 0 0 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    /* Stock Stepper */
+    .stock-stepper-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-step {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--admin-border);
+      color: #ffffff;
+      border: none;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-step:hover {
+      background: var(--admin-primary);
+    }
+    /* ==========================================================================
+       ADMIN AUTH GATEWAY / LOGIN STYLES
+       ========================================================================== */
+    .admin-auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(15, 23, 42, 0.96) 0%, #060911 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .admin-auth-overlay.authenticated {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .admin-auth-card {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #ff6f61;
+      border-radius: 16px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 111, 97, 0.15);
+      text-align: center;
+      animation: authCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes authCardIn {
+      from { transform: scale(0.94) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .admin-auth-brand {
+      margin-bottom: 20px;
+    }
+
+    .admin-auth-logo {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+      margin-bottom: 12px;
+    }
+
+    .admin-auth-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .admin-auth-subtitle {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 111, 97, 0.12);
+      border: 1px solid rgba(255, 111, 97, 0.3);
+      color: #ff8a7d;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .admin-login-alert {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .btn-toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .btn-toggle-password:hover {
+      color: #ffffff;
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #ff6f61 0%, #e11d48 100%);
+      color: #ffffff;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 8px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255, 111, 97, 0.35);
+    }
+
+    .btn-login-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 111, 97, 0.5);
+      background: linear-gradient(135deg, #ff7e72 0%, #f43f5e 100%);
+    }
+
+    .btn-login-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-login-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .admin-auth-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 22px;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    /* Maintenance Mode Switch & Status Pill */
+    .admin-switch {
+      position: relative;
+      display: inline-block;
+      width: 54px;
+      height: 28px;
+    }
+    .admin-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .admin-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #334155;
+      transition: .25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .admin-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: .25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+    .admin-switch input:checked + .admin-slider {
+      background-color: #ef4444;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
+      border-color: #dc2626;
+    }
+    .admin-switch input:checked + .admin-slider:before {
+      transform: translateX(26px);
+    }
+    .admin-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .admin-status-pill.live {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+    /* ==========================================================================
+       PRICE LIST PDF MANAGEMENT & DYNAMIC DISCOUNT CARD (Senior UI/UX)
+       ========================================================================== */
+    .admin-pdf-manager-card {
+      margin-top: 24px;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 111, 97, 0.25);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-pdf-manager-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6f61, #f59e0b, #10b981);
+    }
+
+    .admin-pdf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .admin-pdf-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-pdf-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(225, 29, 72, 0.3));
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f87171;
+      font-size: 26px;
+    }
+
+    .admin-pdf-title-text h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 4px 0;
+    }
+
+    .admin-pdf-title-text p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    .admin-pdf-discount-sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #fbbf24;
+      letter-spacing: 0.02em;
+      transition: all 0.25s ease;
+    }
+
+    .admin-pdf-discount-sync-pill.updated {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34d399;
+      transform: scale(1.03);
+    }
+
+    .admin-pdf-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 20px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .admin-pdf-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .active-pdf-file-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .pdf-file-details {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .pdf-big-preview-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f87171;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .pdf-info-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pdf-info-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #f8fafc;
+      word-break: break-all;
+      margin-bottom: 6px;
+    }
+
+    .pdf-meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pdf-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+    }
+
+    .pdf-chip.active-status {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .pdf-chip.danger-status {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .pdf-chip.discount-link {
+      background: rgba(255, 111, 97, 0.15);
+      color: #ff6f61;
+      border: 1px solid rgba(255, 111, 97, 0.3);
+    }
+
+    .pdf-big-preview-icon.disabled {
+      background: rgba(148, 163, 184, 0.1);
+      border-color: rgba(148, 163, 184, 0.2);
+      color: #64748b;
+    }
+
+    .pdf-active-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-pdf-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid var(--admin-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      text-decoration: none;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-pdf-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-pdf-action.primary {
+      background: rgba(2, 132, 199, 0.15);
+      border-color: rgba(2, 132, 199, 0.4);
+      color: #38bdf8;
+    }
+
+    .btn-pdf-action.primary:hover {
+      background: rgba(2, 132, 199, 0.25);
+      border-color: #38bdf8;
+    }
+
+    .btn-pdf-action.danger {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+
+    .btn-pdf-action.danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+    }
+
+    .pdf-upload-dropzone {
+      background: rgba(15, 23, 42, 0.4);
+      border: 2px dashed rgba(255, 111, 97, 0.35);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+    }
+
+    .pdf-upload-dropzone:hover, .pdf-upload-dropzone.dragover {
+      border-color: var(--admin-primary);
+      background: rgba(255, 111, 97, 0.08);
+      box-shadow: 0 0 20px rgba(255, 111, 97, 0.15);
+    }
+
+    .pdf-drop-icon {
+      font-size: 38px;
+      color: var(--admin-primary);
+      margin-bottom: 8px;
+      transition: transform 0.2s;
+    }
+
+    .pdf-upload-dropzone:hover .pdf-drop-icon {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .pdf-drop-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 4px;
+    }
+
+    .pdf-drop-sub {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-bottom: 12px;
+    }
+
+    .pdf-staged-box {
+      display: none;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--admin-primary);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .pdf-staged-box.visible {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       ADMIN AUTH GATEWAY / LOGIN MODAL
+       ====================================================================== -->
+  <div id="admin-auth-overlay" class="admin-auth-overlay">
+    <div class="admin-auth-card">
+      <div class="admin-auth-brand">
+        <img src="images/logo.png" alt="Mathura Crackers" class="admin-auth-logo" />
+        <h2 class="admin-auth-title">MATHURA CRACKERS</h2>
+        <div class="admin-auth-subtitle">Owner &amp; Inventory Management System</div>
+      </div>
+
+      <div class="admin-auth-badge">
+        <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">verified_user</span>
+        <span>Hardened Admin Gateway • Hacker &amp; Brute-Force Shield Active</span>
+      </div>
+
+      <div id="admin-login-alert" class="admin-login-alert" style="display: none;"></div>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group" style="text-align: left; margin-bottom: 18px;">
+          <label class="form-label" for="login-username" style="display: flex; align-items: center; gap: 6px;">
+            <span class="material-symbols-outlined" style="font-size: 16px; color: var(--admin-primary);">person</span>
+            <span>Admin Username</span>
+          </label>
+          <input 
+            type="text" 
+            id="login-username" 
+            class="form-input" 
+            placeholder="Enter username" 
+            required 
+            autocomplete="username" 
+            autofocus 
+          />
+        </div>
+
+        <div class="form-group" style="text-align: left; margin-bottom: 22px;">
+          <label class="form-label" for="login-password" style="display: flex; align-items: center; gap: 6px;">
+            <span class="material-symbols-outlined" style="font-size: 16px; color: var(--admin-primary);">key</span>
+            <span>Admin Password</span>
+          </label>
+          <div style="position: relative;">
+            <input 
+              type="password" 
+              id="login-password" 
+              class="form-input" 
+              placeholder="Enter password" 
+              required 
+              autocomplete="current-password" 
+              style="padding-right: 44px;"
+            />
+            <button 
+              type="button" 
+              class="btn-toggle-password" 
+              id="toggle-password-btn" 
+              onclick="togglePasswordVisibility()" 
+              title="Toggle Password Visibility"
+              aria-label="Toggle password visibility"
+            >
+              <span class="material-symbols-outlined" id="toggle-password-icon" style="font-size: 20px;">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn-login-submit">
+          <span class="material-symbols-outlined" style="font-size: 19px;">login</span>
+          <span id="login-btn-text">Sign In to Dashboard</span>
+        </button>
+
+        <div class="admin-auth-footer">
+          <span class="material-symbols-outlined" style="font-size: 14px; color: var(--admin-success);">verified_user</span>
+          <span>End-to-End Encrypted • Supabase PostgreSQL</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Navigation Header -->
+  <header class="admin-header">
+    <h1 class="sr-only">Mathura Crackers Admin Management Dashboard</h1>
+    <div class="admin-header-wrap">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <a href="admin.html" class="admin-brand-wrap">
+          <img src="images/logo.png" alt="Mathura Crackers Logo" style="height: 42px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));" />
+          <div>
+            <div class="admin-brand-name">MATHURA CRACKERS</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">BUSINESS MANAGEMENT SYSTEM</div>
+          </div>
+        </a>
+        <span class="admin-live-badge">SUPABASE LIVE DB</span>
+        <span id="header-maintenance-pill" class="admin-status-pill live" title="Current Public Website Status">
+          <span class="material-symbols-outlined" style="font-size: 13px;">circle</span>
+          <span id="header-maintenance-text">LIVE</span>
+        </span>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="admin-nav-bar">
+        <button class="admin-nav-btn active" data-tab="dashboard">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="products">
+          <span class="material-symbols-outlined">inventory_2</span>
+          <span>Products</span>
+          <span class="admin-counter-pill" id="nav-products-count">0</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="categories">
+          <span class="material-symbols-outlined">category</span>
+          <span>Categories</span>
+          <span class="admin-counter-pill" id="nav-categories-count">0</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="orders">
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span>Orders</span>
+          <span class="admin-counter-pill" id="nav-orders-count">0</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="stock">
+          <span class="material-symbols-outlined">warehouse</span>
+          <span>Stock Hub</span>
+          <span class="admin-counter-pill" style="background:#ef4444; display: none;" id="nav-low-stock-count">0</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="analytics">
+          <span class="material-symbols-outlined">analytics</span>
+          <span>Analytics</span>
+        </button>
+        <button class="admin-nav-btn" data-tab="settings">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="index.html" target="_blank" class="btn-site-link">
+          <span class="material-symbols-outlined">storefront</span>
+          <span>Customer Site</span>
+        </a>
+        <button type="button" class="btn-logout" id="admin-logout-btn" onclick="handleAdminLogout()" title="Sign out of Admin Session">
+          <span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="admin-main">
+
+    <!-- ======================================================================
+         TAB 1: DASHBOARD (10-Second Business Health Pulse)
+         ====================================================================== -->
+    <section id="tab-dashboard" class="admin-tab-content active">
+      <!-- KPI Top Summary Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--card-accent: #10b981;">
+          <div class="kpi-title">Today's Revenue</div>
+          <div class="kpi-value" id="kpi-today-rev" style="color: #34d399;">₹0</div>
+          <div class="kpi-sub"><span id="kpi-today-orders">0</span> orders placed today</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #0284c7;">
+          <div class="kpi-title">This Month Sales</div>
+          <div class="kpi-value" id="kpi-month-rev">₹0</div>
+          <div class="kpi-sub"><span id="kpi-month-orders">0</span> completed orders</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #8b5cf6;">
+          <div class="kpi-title">This Year Sales</div>
+          <div class="kpi-value" id="kpi-year-rev">₹0</div>
+          <div class="kpi-sub">Total 2026 Festive Season</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #ff6f61;">
+          <div class="kpi-title">Products Sold</div>
+          <div class="kpi-value" id="kpi-units-sold">0</div>
+          <div class="kpi-sub">Total Packets & Boxes sold</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #f59e0b;">
+          <div class="kpi-title">Low Stock Alert</div>
+          <div class="kpi-value" id="kpi-low-stock" style="color: #fbbf24;">0</div>
+          <div class="kpi-sub">Items requiring restock</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #ef4444;">
+          <div class="kpi-title">Out of Stock</div>
+          <div class="kpi-value" id="kpi-out-stock" style="color: #f87171;">0</div>
+          <div class="kpi-sub">Sold out products</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Row -->
+      <div class="quick-actions-bar">
+        <button class="btn-quick-action primary" onclick="openAddProductModal()">
+          <span class="material-symbols-outlined" style="font-size: 26px;">add_circle</span>
+          <div>
+            <div>+ Add New Product</div>
+            <div style="font-size: 0.75rem; font-weight: 500; opacity: 0.9;">Choose Packet or Box</div>
+          </div>
+        </button>
+
+        <button class="btn-quick-action" onclick="switchAdminTab('categories')">
+          <span class="material-symbols-outlined" style="font-size: 26px; color: #8b5cf6;">category</span>
+          <div>
+            <div>Manage Categories</div>
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">Add, Edit or Delete sections</div>
+          </div>
+        </button>
+
+        <button class="btn-quick-action" onclick="switchAdminTab('orders')">
+          <span class="material-symbols-outlined" style="font-size: 26px; color: #38bdf8;">receipt_long</span>
+          <div>
+            <div>Manage Orders</div>
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">View & confirm orders</div>
+          </div>
+        </button>
+
+        <button class="btn-quick-action" onclick="switchAdminTab('stock')">
+          <span class="material-symbols-outlined" style="font-size: 26px; color: #fbbf24;">warehouse</span>
+          <div>
+            <div>Update Stock</div>
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">Restock low inventory</div>
+          </div>
+        </button>
+
+        <button class="btn-quick-action" onclick="switchAdminTab('analytics')">
+          <span class="material-symbols-outlined" style="font-size: 26px; color: #c084fc;">analytics</span>
+          <div>
+            <div>Sales Analytics</div>
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">Revenue & top sellers</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Live Recent Orders Card -->
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="material-symbols-outlined" style="color: var(--admin-primary);">local_shipping</span>
+            <span>Recent Customer Orders</span>
+          </div>
+          <button class="btn-site-link" onclick="switchAdminTab('orders')">View All Orders →</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order Ref</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Items & Units</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-recent-orders-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                  Loading live orders from Supabase...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 2: PRODUCTS MANAGEMENT (Packet vs Box, Steppers, Add Wizard)
+         ====================================================================== -->
+    <section id="tab-products" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              <span class="material-symbols-outlined" style="color: #0284c7;">inventory_2</span>
+              <span>Product Catalogue & Inventory</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 4px;">
+              Manage pricing, units (Packet / Box), and live inventory levels.
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn-quick-action primary" style="padding: 10px 18px;" onclick="openAddProductModal()">
+              <span class="material-symbols-outlined">add</span>
+              <span>Add Product</span>
+            </button>
+            <button class="btn-site-link" onclick="openSectionModal()">
+              <span class="material-symbols-outlined">create_new_folder</span>
+              <span>+ New Section</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 250px;">
+            <input type="text" id="admin-prod-search" class="form-input" placeholder="🔍 Search by product name or code..." oninput="filterAdminProducts()" />
+          </div>
+          <div style="width: 180px;">
+            <select id="admin-prod-category-filter" class="form-select" onchange="filterAdminProducts()">
+              <option value="all">📁 All Categories</option>
+            </select>
+          </div>
+          <div style="width: 160px;">
+            <select id="admin-prod-unit-filter" class="form-select" onchange="filterAdminProducts()">
+              <option value="all">📦 All Units</option>
+              <option value="BOX">📦 Boxes Only</option>
+              <option value="PACKET">✉️ Packets Only</option>
+            </select>
+          </div>
+          <div style="width: 160px;">
+            <select id="admin-prod-stock-filter" class="form-select" onchange="filterAdminProducts()">
+              <option value="all">⚡ All Stock</option>
+              <option value="in_stock">In Stock Only</option>
+              <option value="low_stock">⚠️ Low Stock</option>
+              <option value="out_of_stock">🚫 Out of Stock</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">Img</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Sale Unit</th>
+                <th>MRP / Rate</th>
+                <th>Initial</th>
+                <th>Sold</th>
+                <th>Remaining</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-table-body">
+              <tr>
+                <td colspan="10" style="text-align: center; padding: 40px; color: var(--admin-text-muted);">
+                  Loading catalogue from Supabase...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB: CATEGORIES & SECTIONS MANAGER
+         ====================================================================== -->
+    <section id="tab-categories" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              <span class="material-symbols-outlined" style="color: var(--admin-primary);">category</span>
+              <span>Category & Section Manager</span>
+            </div>
+            <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: var(--admin-text-muted);">
+              Add, rename, or delete catalog sections directly synced with Supabase.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-quick-action primary" onclick="openAddCategoryModal()">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span>Add New Category</span>
+            </button>
+            <button type="button" class="btn-quick-action" onclick="handleClearAllCategoriesPrompt()" style="border-color: rgba(239,68,68,0.4); color: #f87171;">
+              <span class="material-symbols-outlined">delete_sweep</span>
+              <span>Clear All</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center;">
+          <div style="flex: 1; min-width: 250px;">
+            <input type="text" id="admin-cat-search" class="form-input" placeholder="🔍 Search categories by name..." oninput="filterAdminCategories()" />
+          </div>
+          <div style="font-size: 0.85rem; color: var(--admin-text-muted);">
+            Total: <strong id="cat-total-count" style="color: #ffffff;">0</strong> categories
+          </div>
+        </div>
+
+        <!-- Categories Table -->
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Category Name</th>
+                <th>Slug Identifier</th>
+                <th>Products Count</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-categories-table-body">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 40px; color: var(--admin-text-muted);">
+                  Loading categories from Supabase...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 3: STOCK & INVENTORY HUB (Low Stock Alerts & Transaction Log)
+         ====================================================================== -->
+    <section id="tab-stock" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              <span class="material-symbols-outlined" style="color: #f59e0b;">warehouse</span>
+              <span>Stock & Restock Management</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 4px;">
+              Easily restock inventory and monitor real-time stock deductions.
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Stock Alerts Cards -->
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #fbbf24; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined">warning</span>
+          <span>Products Needing Restock</span>
+        </h3>
+        <div id="low-stock-cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 30px;">
+          <!-- Populated by admin.js -->
+        </div>
+
+        <!-- Inventory Transaction Log -->
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined">history</span>
+          <span>Stock Movement & Audit History</span>
+        </h3>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Product Name</th>
+                <th>Action</th>
+                <th>Stock Change</th>
+                <th>Previous ➔ New</th>
+                <th>Reason / Order</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-logs-table-body">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                  Loading inventory movement records...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 4: ORDERS MANAGEMENT (Pipeline, Invoice Printing, Cancel Restore)
+         ====================================================================== -->
+    <section id="tab-orders" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              <span class="material-symbols-outlined" style="color: #38bdf8;">receipt_long</span>
+              <span>Customer Orders & Invoices</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 4px;">
+              Manage customer enquiries, update status, and print packing slips.
+            </div>
+          </div>
+        </div>
+
+        <!-- Search & Filter Row -->
+        <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 250px;">
+            <input type="text" id="admin-orders-search" class="form-input" placeholder="🔍 Search by customer name, phone, or Order ID..." oninput="filterAdminOrders()" />
+          </div>
+          <div style="width: 200px;">
+            <select id="admin-orders-status-filter" class="form-select" onchange="filterAdminOrders()">
+              <option value="all">📑 All Statuses</option>
+              <option value="pending">⏳ Pending / New</option>
+              <option value="confirmed">✓ Confirmed</option>
+              <option value="packed">📦 Packed</option>
+              <option value="delivered">🚚 Delivered</option>
+              <option value="cancelled">🚫 Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order Ref</th>
+                <th>Booking Date</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>City / State</th>
+                <th>Total Items</th>
+                <th>Net Payable</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-table-body">
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 40px; color: var(--admin-text-muted);">
+                  Loading orders from Supabase...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 5: SALES & REVENUE ANALYTICS (Day / Month / Year & Rankings)
+         ====================================================================== -->
+    <section id="tab-analytics" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              <span class="material-symbols-outlined" style="color: #c084fc;">analytics</span>
+              <span>Sales & Revenue Analytics</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 4px;">
+              Real-time sales breakdown calculated directly from valid database orders.
+            </div>
+          </div>
+
+          <!-- Time Period Switcher (Clean, Modern Pill) -->
+          <div class="admin-period-switcher">
+            <button type="button" class="admin-period-btn active" data-period="month" onclick="changeAnalyticsPeriod('month', this)">MONTH</button>
+            <button type="button" class="admin-period-btn" data-period="day" onclick="changeAnalyticsPeriod('day', this)">DAY</button>
+            <button type="button" class="admin-period-btn" data-period="year" onclick="changeAnalyticsPeriod('year', this)">YEAR</button>
+          </div>
+        </div>
+
+        <!-- Analytics Stats Row -->
+        <div class="kpi-grid" style="margin-bottom: 24px;">
+          <div class="kpi-card" style="--card-accent: #10b981;">
+            <div class="kpi-title">Period Revenue</div>
+            <div class="kpi-value" id="analytics-rev" style="color: #34d399;">₹0</div>
+            <div class="kpi-sub">Total valid money earned</div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent: #0284c7;">
+            <div class="kpi-title">Orders Count</div>
+            <div class="kpi-value" id="analytics-orders">0</div>
+            <div class="kpi-sub">Successful customer bookings</div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent: #8b5cf6;">
+            <div class="kpi-title">Quantity Sold</div>
+            <div class="kpi-value" id="analytics-qty">0</div>
+            <div class="kpi-sub">Total Boxes & Packets</div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent: #ff6f61;">
+            <div class="kpi-title">Avg Order Value (AOV)</div>
+            <div class="kpi-value" id="analytics-aov">₹0</div>
+            <div class="kpi-sub">Average cart size</div>
+          </div>
+        </div>
+
+        <!-- Best-Selling vs Low-Selling Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="analytics-split-grid">
+          <!-- Best Selling Products -->
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #34d399; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span class="material-symbols-outlined">trending_up</span>
+              <span>🏆 Best-Selling Products</span>
+            </h3>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Unit Type</th>
+                    <th>Quantity Sold</th>
+                    <th>Revenue</th>
+                  </tr>
+                </thead>
+                <tbody id="analytics-best-sellers-body">
+                  <!-- Populated by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Slow-Moving Products -->
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #f87171; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span class="material-symbols-outlined">trending_down</span>
+              <span>📉 Slow-Moving Inventory</span>
+            </h3>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Current Stock</th>
+                    <th>Units Sold</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="analytics-slow-sellers-body">
+                  <!-- Populated by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 6: SETTINGS (Store Info, Sale Countdown, Payment Info)
+         ====================================================================== -->
+    <section id="tab-settings" class="admin-tab-content">
+      <div class="admin-panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="material-symbols-outlined" style="color: #ff6f61;">settings</span>
+            <span>Store Configuration & Campaign Settings</span>
+          </div>
+        </div>
+
+        <form id="admin-settings-form" onsubmit="handleSaveSettings(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="settings-grid">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 800; color: #ffffff; margin-bottom: 14px;">🏢 Company Information</h3>
+              <div class="form-group">
+                <label class="form-label">Company Brand Name</label>
+                <input type="text" id="set-company-name" class="form-input" value="Ashwanth Crackers" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Order Phone / Helpline</label>
+                <input type="text" id="set-phone" class="form-input" value="+91 70103 17389 / +91 74180 51084 / +91 72009 36916" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp Number</label>
+                <input type="text" id="set-whatsapp" class="form-input" value="+91 70103 17389" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="set-email" class="form-input" value="sales@ashwanthcrackers.com" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Factory / Depot Address</label>
+                <textarea id="set-address" class="form-input" rows="2">Near Standard Fireworks Depot, Main Road, Sivakasi - 626123, Tamil Nadu</textarea>
+              </div>
+            </div>
+
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 800; color: #ffffff; margin-bottom: 14px;">🎉 Festive Sale & Discounts</h3>
+              <div class="form-group">
+                <label class="form-label">Sale Campaign Title</label>
+                <input type="text" id="set-sale-title" class="form-input" value="MEGA DIWALI DHAMAKA SALE" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Storewide Default Discount (%)</label>
+                <input type="number" id="set-discount" class="form-input" value="80" min="0" max="99" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Diwali Countdown Target Date & Time</label>
+                <input type="datetime-local" id="set-countdown" class="form-input" value="2026-11-08T23:59" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Payment Instructions for Customer</label>
+                <textarea id="set-payment-info" class="form-input" rows="3">Advance 100% payment required via UPI / Bank Transfer upon order confirmation.</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 📄 Wholesale Price List PDF Management Card (Connected to Storewide Discount) -->
+          <div class="admin-pdf-manager-card">
+            <div class="admin-pdf-header">
+              <div class="admin-pdf-title-group">
+                <div class="admin-pdf-icon-badge">
+                  <span class="material-symbols-outlined">picture_as_pdf</span>
+                </div>
+                <div class="admin-pdf-title-text">
+                  <h3>Wholesale Price List PDF &amp; Live Discount Sync</h3>
+                  <p>Customer site download buttons dynamically serve this PDF with the active discount percentage.</p>
+                </div>
+              </div>
+              <div class="admin-pdf-discount-sync-pill" id="admin-pdf-sync-indicator" title="Connected to 'Storewide Default Discount (%)' input above">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #fbbf24;">link</span>
+                <span>Live Customer Badge: <strong id="admin-pdf-connected-discount-val">80% OFF</strong></span>
+              </div>
+            </div>
+
+            <div class="admin-pdf-grid">
+              <!-- Active File Summary -->
+              <div class="active-pdf-file-card">
+                <div class="pdf-file-details">
+                  <div class="pdf-big-preview-icon" id="admin-pdf-icon-box">
+                    <span class="material-symbols-outlined" id="admin-pdf-status-icon">description</span>
+                  </div>
+                  <div class="pdf-info-wrap">
+                    <div class="pdf-info-name" id="admin-active-pdf-name">mathura_crackers_price_list.pdf</div>
+                    <div class="pdf-meta-chips">
+                      <span class="pdf-chip active-status" id="admin-active-pdf-status">🟢 Active on Website</span>
+                      <span class="pdf-chip" id="admin-active-pdf-size">401 KB</span>
+                      <span class="pdf-chip discount-link" id="admin-active-pdf-badge-preview">Badge: 80% OFF</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #94a3b8;" id="admin-active-pdf-updated">
+                      Last synced: Auto-managed
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pdf-active-actions">
+                  <a id="admin-btn-preview-pdf" href="mathura_crackers_price_list.pdf" target="_blank" class="btn-pdf-action primary">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">visibility</span>
+                    <span>Preview PDF</span>
+                  </a>
+                  <a id="admin-btn-download-pdf" href="mathura_crackers_price_list.pdf" download="Mathura_Crackers_Price_List_2026.pdf" class="btn-pdf-action">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">download</span>
+                    <span>Test Download</span>
+                  </a>
+                  <button type="button" id="admin-btn-delete-pdf" onclick="handleDeletePdf(event)" class="btn-pdf-action danger" title="Delete PDF from customer website">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+                    <span>Delete PDF from Website</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Upload / Change PDF Dropzone -->
+              <div>
+                <div class="pdf-upload-dropzone" id="admin-pdf-dropzone" onclick="triggerPdfFileInput()">
+                  <input type="file" id="admin-pdf-file-input" accept="application/pdf,.pdf" style="display: none;" onchange="handleAdminPdfFileSelected(this)" />
+                  <span class="material-symbols-outlined pdf-drop-icon">cloud_upload</span>
+                  <div class="pdf-drop-title">Upload New Price List PDF</div>
+                  <div class="pdf-drop-sub">Drag &amp; drop your PDF here or browse from device (PDF format only, up to 25MB)</div>
+                  <button type="button" class="btn-site-link" style="pointer-events: none; border-color: rgba(255, 111, 97, 0.4); color: #ff6f61;">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">upload_file</span>
+                    <span>Select PDF File</span>
+                  </button>
+                </div>
+
+                <!-- Staged File Card -->
+                <div id="admin-pdf-staged-box" class="pdf-staged-box">
+                  <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                    <span class="material-symbols-outlined" style="color: #ff6f61; font-size: 24px;">task</span>
+                    <div style="min-width: 0;">
+                      <div id="admin-staged-filename" style="font-size: 0.88rem; font-weight: 800; color: #ffffff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">filename.pdf</div>
+                      <div id="admin-staged-filesize" style="font-size: 0.75rem; color: #94a3b8;">0 KB</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <button type="button" id="admin-btn-confirm-upload" onclick="executePdfUpload()" class="btn-quick-action primary" style="padding: 8px 14px; font-size: 0.82rem;">
+                      <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+                      <span>Confirm &amp; Upload</span>
+                    </button>
+                    <button type="button" onclick="cancelStagedPdf()" class="btn-pdf-action danger" style="padding: 8px 12px; font-size: 0.82rem;">
+                      <span class="material-symbols-outlined" style="font-size: 16px;">close</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🛡️ Maintenance Mode Control Card -->
+          <div style="margin-top: 24px; background: rgba(15, 23, 42, 0.75); border: 1px solid var(--admin-border); border-radius: 14px; padding: 22px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined" style="color: var(--gold-bright); font-size: 28px;">construction</span>
+                <div>
+                  <h3 style="font-size: 1.05rem; font-weight: 800; color: #ffffff; margin: 0;">Website Maintenance Mode</h3>
+                  <div style="font-size: 0.8rem; color: #94a3b8;">Server-side enforcement across all public visitor routes</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span id="setting-maintenance-status" class="admin-status-pill live">🟢 Live Mode Active</span>
+                <label class="admin-switch" title="Toggle Maintenance Mode ON/OFF">
+                  <input type="checkbox" id="toggle-maintenance-mode" onchange="handleMaintenanceToggle(this)" />
+                  <span class="admin-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <p style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
+              When <strong>ON</strong>, all public visitors attempting to view the home page, product catalog, about, or contact pages are strictly served the Maintenance Page (HTTP 503). <strong>Authorized administrators</strong> retain full access to this admin panel to configure products, view orders, and restore the website.
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <a href="maintenance.html" target="_blank" class="btn-site-link" style="padding: 7px 14px; font-size: 0.82rem;">
+                <span class="material-symbols-outlined" style="font-size: 16px;">visibility</span>
+                <span>Preview Maintenance Page</span>
+              </a>
+              <a href="index.html" target="_blank" class="btn-site-link" style="padding: 7px 14px; font-size: 0.82rem; border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+                <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                <span>Open Website</span>
+              </a>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="submit" id="save-settings-btn" class="btn-quick-action primary" style="display: inline-flex;">
+              <span class="material-symbols-outlined">save</span>
+              <span>Save Store Settings</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: 4-STEP ADD PRODUCT WIZARD (Packet vs Box Choice)
+       ========================================================================== -->
+  <div id="add-product-modal" class="admin-modal-backdrop">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <span class="material-symbols-outlined" style="color: var(--admin-primary);">add_box</span>
+          <span>Add New Product to Catalogue</span>
+        </div>
+        <button type="button" class="btn-step" onclick="closeAddProductModal()">✕</button>
+      </div>
+
+      <form id="add-product-form" onsubmit="handleWizardAddProduct(event)">
+        <!-- Step 1: Info -->
+        <h4 style="color: var(--admin-primary); margin-top: 0; font-size: 0.95rem;">Step 1: Product Information</h4>
+        <div class="form-group">
+          <label class="form-label">Product Name *</label>
+          <input type="text" id="wiz-name" class="form-input" placeholder="e.g. 10 cm Electric Sparklers" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Category / Section *</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="wiz-category" class="form-select" style="flex: 1;" required></select>
+              <button type="button" onclick="openAddCategoryModal()" class="btn-quick-action primary" style="padding: 0 14px; height: 46px; font-size: 0.82rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; flex-shrink: 0; box-shadow: none;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Code (Optional)</label>
+            <input type="text" id="wiz-code" class="form-input" placeholder="Auto-generated if empty" />
+          </div>
+        </div>
+
+        <!-- Product Image Section -->
+        <div class="form-group" style="margin-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin: 0; display: flex; align-items: center; gap: 6px; font-weight: 700;">
+              <span class="material-symbols-outlined" style="font-size: 18px; color: var(--admin-primary);">add_photo_alternate</span>
+              <span>Product Image</span>
+            </label>
+            <span id="wiz-image-status" style="font-size: 0.76rem; color: var(--admin-text-muted);">Optional • URL or File Upload</span>
+          </div>
+
+          <div style="display: flex; gap: 14px; align-items: center; background: #070d19; padding: 14px; border-radius: 12px; border: 1px solid var(--admin-border);">
+            <!-- Image Thumbnail Preview -->
+            <div style="position: relative; width: 78px; height: 78px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); overflow: hidden; flex-shrink: 0; background: #131d2e; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.35);">
+              <img id="wiz-image-preview" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" 
+                   style="width: 100%; height: 100%; object-fit: cover;" alt="Preview" 
+                   onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80'" />
+            </div>
+
+            <!-- Controls -->
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; gap: 8px;">
+                <input type="url" id="wiz-image" class="form-input" placeholder="Paste image web link or click Upload..." style="flex: 1; height: 44px; font-size: 0.85rem;" oninput="handleImagePreviewChange('wiz-image', 'wiz-image-preview')" />
+                <label class="btn-quick-action" style="padding: 0 16px; height: 44px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; flex-shrink: 0; background: #1e293b; border: 1px solid #475569; color: #ffffff; margin: 0; transition: all 0.2s;">
+                  <span class="material-symbols-outlined" style="font-size: 19px; color: var(--admin-primary);">cloud_upload</span>
+                  <span>Upload File</span>
+                  <input type="file" id="wiz-image-file" accept="image/*" style="display: none;" onchange="handleProductImageUpload(this, 'wiz-image', 'wiz-image-preview', 'wiz-image-status')" />
+                </label>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
+                <span>Supports PNG, JPG, WebP from your device or web URL</span>
+                <button type="button" style="background: transparent; border: none; color: #f87171; cursor: pointer; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border-radius: 4px;" onclick="clearProductImage('wiz-image', 'wiz-image-preview', 'wiz-image-status')">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">delete</span>
+                  <span>Remove Image</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Pricing -->
+        <h4 style="color: var(--admin-primary); margin: 16px 0 10px 0; font-size: 0.95rem;">Step 2: Pricing</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">MRP Price (₹) *</label>
+            <input type="number" id="wiz-mrp" class="form-input" placeholder="500" min="1" required oninput="calcWizardPrice()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input type="number" id="wiz-discount" class="form-input" value="80" min="0" max="99" oninput="calcWizardPrice()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Rate (₹)</label>
+            <input type="number" id="wiz-net" class="form-input" placeholder="100" readonly style="background: rgba(16, 185, 129, 0.1); color: #34d399; font-weight: 800;" />
+          </div>
+        </div>
+
+        <!-- Step 3: How do you sell it? (Packet vs Box Choice) -->
+        <h4 style="color: var(--admin-primary); margin: 16px 0 10px 0; font-size: 0.95rem;">Step 3: How is this product sold? *</h4>
+        <div class="unit-choice-wrap">
+          <div id="unit-choice-box" class="unit-choice-card selected" onclick="selectWizardUnit('BOX')">
+            <div style="font-size: 28px;">📦</div>
+            <h4>BOX</h4>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Sold as Boxes / Cartons</div>
+          </div>
+          <div id="unit-choice-packet" class="unit-choice-card" onclick="selectWizardUnit('PACKET')">
+            <div style="font-size: 28px;">✉️</div>
+            <h4>PACKET</h4>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Sold as Individual Packets</div>
+          </div>
+        </div>
+        <input type="hidden" id="wiz-sale-type" value="BOX" />
+
+        <!-- Step 4: Initial Stock & Low Stock Threshold -->
+        <h4 style="color: var(--admin-primary); margin: 16px 0 10px 0; font-size: 0.95rem;">Step 4: Stock Tracking</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label" id="wiz-stock-label">How many Boxes do you currently have? *</label>
+            <input type="number" id="wiz-stock" class="form-input" placeholder="50" min="0" value="50" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Alert me when stock reaches:</label>
+            <input type="number" id="wiz-threshold" class="form-input" value="10" min="1" />
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn-site-link" onclick="closeAddProductModal()">Cancel</button>
+          <button type="submit" id="wiz-submit-btn" class="btn-quick-action primary">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Save Product to Database</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: EDIT PRODUCT & STOCK STEPPER
+       ========================================================================== -->
+  <div id="edit-product-modal" class="admin-modal-backdrop">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <span class="material-symbols-outlined" style="color: #38bdf8;">edit_square</span>
+          <span>Edit Product & Adjust Stock</span>
+        </div>
+        <button type="button" class="btn-step" onclick="closeEditProductModal()">✕</button>
+      </div>
+
+      <form id="edit-product-form" onsubmit="handleSaveEditProduct(event)">
+        <input type="hidden" id="edit-prod-id" />
+
+        <div class="form-group">
+          <label class="form-label">Product Name</label>
+          <input type="text" id="edit-prod-name" class="form-input" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="edit-prod-category" class="form-select" style="flex: 1;" required></select>
+              <button type="button" onclick="openAddCategoryModal()" class="btn-quick-action primary" style="padding: 0 14px; height: 46px; font-size: 0.82rem; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; flex-shrink: 0; box-shadow: none;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Code</label>
+            <input type="text" id="edit-prod-code" class="form-input" required />
+          </div>
+        </div>
+
+        <!-- Edit Product Image Section -->
+        <div class="form-group" style="margin: 14px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin: 0; display: flex; align-items: center; gap: 6px; font-weight: 700;">
+              <span class="material-symbols-outlined" style="font-size: 18px; color: #38bdf8;">add_photo_alternate</span>
+              <span>Product Image</span>
+            </label>
+            <span id="edit-image-status" style="font-size: 0.76rem; color: var(--admin-text-muted);">Optional • URL or File Upload</span>
+          </div>
+
+          <div style="display: flex; gap: 14px; align-items: center; background: #070d19; padding: 14px; border-radius: 12px; border: 1px solid var(--admin-border);">
+            <!-- Image Thumbnail Preview -->
+            <div style="position: relative; width: 78px; height: 78px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); overflow: hidden; flex-shrink: 0; background: #131d2e; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.35);">
+              <img id="edit-image-preview" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" 
+                   style="width: 100%; height: 100%; object-fit: cover;" alt="Preview" 
+                   onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80'" />
+            </div>
+
+            <!-- Controls -->
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; gap: 8px;">
+                <input type="url" id="edit-prod-image" class="form-input" placeholder="Paste image web link or click Upload..." style="flex: 1; height: 44px; font-size: 0.85rem;" oninput="handleImagePreviewChange('edit-prod-image', 'edit-image-preview')" />
+                <label class="btn-quick-action" style="padding: 0 16px; height: 44px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; flex-shrink: 0; background: #1e293b; border: 1px solid #475569; color: #ffffff; margin: 0; transition: all 0.2s;">
+                  <span class="material-symbols-outlined" style="font-size: 19px; color: #38bdf8;">cloud_upload</span>
+                  <span>Upload File</span>
+                  <input type="file" id="edit-prod-image-file" accept="image/*" style="display: none;" onchange="handleProductImageUpload(this, 'edit-prod-image', 'edit-image-preview', 'edit-image-status')" />
+                </label>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
+                <span>Supports PNG, JPG, WebP from your device or web URL</span>
+                <button type="button" style="background: transparent; border: none; color: #f87171; cursor: pointer; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border-radius: 4px;" onclick="clearProductImage('edit-prod-image', 'edit-image-preview', 'edit-image-status')">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">delete</span>
+                  <span>Remove Image</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">MRP (₹)</label>
+            <input type="number" id="edit-prod-mrp" class="form-input" required oninput="calcEditPrice()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input type="number" id="edit-prod-discount" class="form-input" required oninput="calcEditPrice()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rate (₹)</label>
+            <input type="number" id="edit-prod-net" class="form-input" readonly style="background: rgba(16, 185, 129, 0.1); color: #34d399; font-weight: 800;" />
+          </div>
+        </div>
+
+        <!-- Live Stock Stepper -->
+        <div style="background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--admin-border); margin: 16px 0;">
+          <label class="form-label" style="margin-bottom: 8px;">📦 Adjust Inventory Stock (<span id="edit-unit-label">Boxes</span>)</label>
+          <div class="stock-stepper-wrap">
+            <button type="button" class="btn-step" onclick="stepEditStock(-10)">-10</button>
+            <button type="button" class="btn-step" onclick="stepEditStock(-1)">-1</button>
+            <input type="number" id="edit-prod-stock" class="form-input" style="text-align: center; font-size: 1.2rem; font-weight: 800;" min="0" required />
+            <button type="button" class="btn-step" onclick="stepEditStock(1)">+1</button>
+            <button type="button" class="btn-step" onclick="stepEditStock(10)">+10</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; margin-top: 8px;">
+            <span>Total Units Sold: <strong id="edit-total-sold">0</strong></span>
+            <span>Alert Threshold: <input type="number" id="edit-threshold" style="width: 50px; background: transparent; border: 1px solid var(--admin-border); color: #ffffff; border-radius: 4px; text-align: center;" /></span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn-site-link" onclick="closeEditProductModal()">Cancel</button>
+          <button type="submit" id="edit-save-btn" class="btn-quick-action primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: ORDER DETAILS & PACKING SLIP
+       ========================================================================== -->
+  <div id="order-detail-modal" class="admin-modal-backdrop">
+    <div class="admin-modal-card" style="max-width: 780px;">
+      <div class="admin-modal-header">
+        <div>
+          <div class="admin-modal-title">
+            <span class="material-symbols-outlined" style="color: var(--admin-primary);">receipt</span>
+            <span>Order #<span id="mod-order-ref">JC0000</span></span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 2px;" id="mod-order-date">Booking Date: -</div>
+        </div>
+        <button type="button" class="btn-step" onclick="closeOrderDetailModal()">✕</button>
+      </div>
+
+      <!-- Customer Summary -->
+      <div style="background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--admin-border); margin-bottom: 18px; font-size: 0.9rem; line-height: 1.6;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div>
+            <strong>Customer:</strong> <span id="mod-cust-name">-</span><br/>
+            <strong>Phone:</strong> <span id="mod-cust-phone">-</span><br/>
+            <strong>Email:</strong> <span id="mod-cust-email">-</span>
+          </div>
+          <div>
+            <strong>Delivery Address:</strong><br/>
+            <span id="mod-cust-address">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Items Table -->
+      <div class="admin-table-wrap" style="margin-bottom: 18px;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th style="text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody id="mod-items-table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Totals Breakdown -->
+      <div style="background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--admin-border); font-size: 0.9rem; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #94a3b8;">
+          <span>Original MRP Subtotal:</span>
+          <span id="mod-subtotal">₹0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #34d399; font-weight: 700;">
+          <span>Festive Discount Savings:</span>
+          <span id="mod-savings">-₹0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 900; color: var(--admin-primary); border-top: 1px solid var(--admin-border); padding-top: 8px;">
+          <span>Net Payable Amount:</span>
+          <span id="mod-net-total">₹0</span>
+        </div>
+      </div>
+
+      <!-- Status Buttons & Print -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <button class="btn-site-link" onclick="printAdminInvoice()">
+          <span class="material-symbols-outlined">print</span>
+          <span>Print Packing Slip</span>
+        </button>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn-site-link" style="color: #38bdf8; border-color: #0284c7;" onclick="setOrderStatus('confirmed')">✓ Confirm</button>
+          <button class="btn-site-link" style="color: #c084fc; border-color: #8b5cf6;" onclick="setOrderStatus('packed')">📦 Mark Packed</button>
+          <button class="btn-site-link" style="color: #34d399; border-color: #10b981;" onclick="setOrderStatus('delivered')">🚚 Mark Delivered</button>
+          <button class="btn-site-link" style="color: #f87171; border-color: #ef4444;" onclick="setOrderStatus('cancelled')">🚫 Cancel Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: CREATE SECTION MODAL
+       ========================================================================== -->
+  <div id="section-modal" class="admin-modal-backdrop">
+    <div class="admin-modal-card" style="max-width: 440px;">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <span class="material-symbols-outlined" style="color: var(--admin-primary);">create_new_folder</span>
+          <span>Create New Section</span>
+        </div>
+        <button type="button" class="btn-step" onclick="closeSectionModal()">✕</button>
+      </div>
+      <form onsubmit="handleCreateSection(event)">
+        <div class="form-group">
+          <label class="form-label">Section / Category Name</label>
+          <input type="text" id="new-sec-name" class="form-input" placeholder="e.g. Musical & Whistling Fountains" required />
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn-site-link" onclick="closeSectionModal()">Cancel</button>
+          <button type="submit" id="create-sec-btn" class="btn-quick-action primary">Save Section</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD CATEGORY -->
+  <div id="add-category-modal" class="admin-modal-backdrop" style="z-index: 10050;">
+    <div class="admin-modal-card" style="max-width: 480px;">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <span class="material-symbols-outlined" style="color: var(--admin-primary);">add_circle</span>
+          <span>Add New Category</span>
+        </div>
+        <button type="button" class="btn-step" onclick="closeAddCategoryModal()">✕</button>
+      </div>
+      <form id="add-category-form" onsubmit="handleSaveNewCategory(event)">
+        <div class="form-group">
+          <label class="form-label">Category / Section Name *</label>
+          <input type="text" id="new-cat-name" class="form-input" placeholder="e.g. Sparklers, Sky Shots, Gift Boxes" required autofocus />
+          <div style="font-size: 0.78rem; color: var(--admin-text-muted); margin-top: 6px;">
+            This will create a new section in Supabase and make it available in the catalogue immediately.
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn-site-link" onclick="closeAddCategoryModal()">Cancel</button>
+          <button type="submit" id="save-cat-btn" class="btn-quick-action primary">Create Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EDIT CATEGORY -->
+  <div id="edit-category-modal" class="admin-modal-backdrop" style="z-index: 10050;">
+    <div class="admin-modal-card" style="max-width: 480px;">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <span class="material-symbols-outlined" style="color: var(--admin-primary);">edit</span>
+          <span>Edit Category</span>
+        </div>
+        <button type="button" class="btn-step" onclick="closeEditCategoryModal()">✕</button>
+      </div>
+      <form id="edit-category-form" onsubmit="handleSaveEditCategory(event)">
+        <input type="hidden" id="edit-cat-id" />
+        <div class="form-group">
+          <label class="form-label">Category Name *</label>
+          <input type="text" id="edit-cat-name" class="form-input" required />
+          <div style="font-size: 0.78rem; color: var(--admin-text-muted); margin-top: 6px;">
+            Renaming this will update the section in Supabase and automatically update all products under this category.
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn-site-link" onclick="closeEditCategoryModal()">Cancel</button>
+          <button type="submit" id="update-cat-btn" class="btn-quick-action primary">Update Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/custom-dialog.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/products-data.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

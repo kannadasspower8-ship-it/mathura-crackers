@@ -1,0 +1,14 @@
+{
+  "name": "mathura-crackers",
+  "version": "1.0.0",
+  "description": "Mathura Crackers Sivakasi - Premium Fireworks E-Commerce & Wholesale Storefront",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tools/validate_site.js",
+    "generate:excel": "node tools/generate_excel.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}
